@@ -1,12 +1,8 @@
 package com.example.weatherapp
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import androidx.appcompat.view.menu.MenuView
 import com.bumptech.glide.Glide
-import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         WeatherApiService.create()
     }
 
+    val API_KEY:String = "bcc5536aa9d064ed3d3b6472a6a6bf9a"
+    var Query:String = "Jakarta"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getWeather() {
         disposable =
-            weatherApiServe.returnWeather("bcc5536aa9d064ed3d3b6472a6a6bf9a","Jakarta")
+            weatherApiServe.returnWeather(API_KEY,Query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -65,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLocation() {
         disposable =
-            weatherApiServe.returnLocation("bcc5536aa9d064ed3d3b6472a6a6bf9a", "Jakarta")
+            weatherApiServe.returnLocation(API_KEY, Query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getWeatherDesc() {
         disposable =
-            weatherApiServe.returnWeather("bcc5536aa9d064ed3d3b6472a6a6bf9a","Jakarta")
+            weatherApiServe.returnWeather(API_KEY,Query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -87,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getWeatherIcon() {
         disposable =
-            weatherApiServe.returnWeather("bcc5536aa9d064ed3d3b6472a6a6bf9a","Jakarta")
+            weatherApiServe.returnWeather(API_KEY,Query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { result -> var url = result.current.weather_icons.toString().replace("[","").replace("]","")
@@ -97,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLocationFrame1() {
         disposable =
-            weatherApiServe.returnLocation("bcc5536aa9d064ed3d3b6472a6a6bf9a","Jakarta")
+            weatherApiServe.returnLocation(API_KEY,Query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{
