@@ -12,12 +12,7 @@ interface WeatherApiService {
     @GET("current")
     fun returnWeather(@Query("access_key") access_key: String,
                       @Query("query") query: String):
-            Observable<Model.ResultTemperature>
-
-    @GET("current")
-    fun returnLocation(@Query("access_key") access_key: String,
-                       @Query("query") query: String):
-            Observable<Model.ResultLocation>
+            Observable<Model>
 
 
     companion object {
