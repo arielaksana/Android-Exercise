@@ -1,16 +1,13 @@
 package com.example.weatherapp
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     val API_KEY:String = "bcc5536aa9d064ed3d3b6472a6a6bf9a"
     var Query:String = "Jakarta"
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         getWeather()
     }
 
-    private fun getWeather() {
+     private fun getWeather() {
         disposable =
             weatherApiServe.returnWeather(API_KEY,Query)
                 .subscribeOn(Schedulers.io())
@@ -42,6 +40,20 @@ class MainActivity : AppCompatActivity() {
                     weather_desc.text = "${result.current.weather_description.toString().replace("[","").replace("]","")}"
                     val url = result.current.weather_icons.toString().replace("[","").replace("]","")
                     setMainImg(url)
+
+                    val listLocation = listOf(
+                        Model(Current(temperature = "${result.current.temperature}°",
+                                      weather_icons = result.current.weather_icons,
+                                      weather_description = result.current.weather_description),
+                              Location(name = result.location.name))
+                    )
+
+                    val rvAdapter = ModelAdapter(listLocation)
+
+                    rv_main.apply {
+                        layoutManager = GridLayoutManager(this@MainActivity, 2)
+                        adapter = rvAdapter
+                    }
                 }
     }
 
